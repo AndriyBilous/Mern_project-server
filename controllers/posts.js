@@ -66,3 +66,15 @@ export const getAll = async (req, res) => {
     res.json({ message: "Something went wrong with uploading posts" });
   }
 };
+
+// Get Post by Id
+export const getById = async (req, res) => {
+  try {
+    const post = await Post.findByIdAndUpdate(req.params.id, {
+      $inc: { views: 1 },
+    });
+    res.json(post);
+  } catch (e) {
+    res.json({ message: "Something went wrong with uploading post by Id" });
+  }
+};
