@@ -95,6 +95,30 @@ export const getMyPosts = async (req, res) => {
   }
 };
 
+// Update Post
+export const updatePost = async (req, res) => {
+  try {
+    const { title, text, id } = req.body;
+    const post = await Post.findById(id);
+
+    if (req.files) {
+      let fileName = Date.now().toString() + req.files.image.name; // Here we give a name to image
+      const __dirname = dirname(fileURLToPath(import.meta.url)); // with this we can get folder where we are now
+      req.files.image.mv(path.join(__dirname, "..", "uploads", fileName)); // with function 'mv' we are moving picture to uploads folder
+      post.imgUrl = fileName || "";
+    }
+
+    post.title = title;
+    post.text = text;
+
+    await post.save();
+
+    res.json(post);
+  } catch (e) {
+    res.json({ message: "Something went wrong with removing post" });
+  }
+};
+
 // Remove Post
 export const removePost = async (req, res) => {
   try {

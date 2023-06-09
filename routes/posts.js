@@ -6,6 +6,7 @@ import {
   getById,
   getMyPosts,
   removePost,
+  updatePost,
 } from "../controllers/posts.js";
 
 const router = new Router();
@@ -29,6 +30,11 @@ router.get("/:id", getById);
 // http://localhost:3002/api/posts/user/me
 
 router.get("/user/me", checkAuth, getMyPosts);
+
+// Update Post
+// http://localhost:3002/api/posts/:id
+
+router.put("/:id", checkAuth, updatePost);
 
 // Remove Post
 // http://localhost:3002/api/posts/:id
