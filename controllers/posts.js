@@ -78,3 +78,36 @@ export const getById = async (req, res) => {
     res.json({ message: "Something went wrong with uploading post by Id" });
   }
 };
+
+// Get my Posts
+export const getMyPosts = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    const list = await Promise.all(
+      user.posts.map((post) => {
+        return Post.findById(post._id);
+      })
+    );
+
+    res.json(list);
+  } catch (e) {
+    res.json({ message: "Something went wrong with uploading my posts" });
+  }
+};
+
+// Remove Post
+export const removePost = async (req, res) => {
+  try {
+    const post = await Post.findByIdAndDelete(req.params.id);
+
+    if (!post) return res.json({ message: "There are no such post" });
+
+    await User.findByIdAndUpdate(req.userId, {
+      $pull: { posts: req.params.id },
+    });
+
+    res.json({ message: "Post has been deleted" });
+  } catch (e) {
+    res.json({ message: "Something went wrong with removing post" });
+  }
+};
