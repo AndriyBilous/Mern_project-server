@@ -6,6 +6,7 @@ import fileUpload from "express-fileupload";
 
 import authRoute from "./routes/auth.js";
 import postRoute from "./routes/posts.js";
+import commentRoute from "./routes/comments.js";
 
 const app = express();
 
@@ -23,11 +24,12 @@ app.use(cors());
 app.use(fileUpload()); // for uploading pictures to DB
 app.use(express.json()); // so backend know that all info from frontend will be send in json format
 app.use(express.static("uploads")); // here we are detecting folder with files
+
 // Routes
 // http://localhost:3002
 app.use("/api/auth", authRoute);
-
 app.use("/api/posts", postRoute);
+app.use("/api/comments", commentRoute);
 
 async function start() {
   // connecting to mongoDB
