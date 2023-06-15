@@ -8,6 +8,7 @@ import {
   removePost,
   updatePost,
   getPostComments,
+  getPicture,
 } from "../controllers/posts.js";
 
 const router = new Router();
